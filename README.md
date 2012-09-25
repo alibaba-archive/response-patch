@@ -1,6 +1,7 @@
 response-patch
 ==============
 
+[![Build Status](https://secure.travis-ci.org/fengmk2/response-patch.png)](http://travis-ci.org/fengmk2/response-patch)
 monkey patch for `http.ServerResponse`.
 
 ## Install
