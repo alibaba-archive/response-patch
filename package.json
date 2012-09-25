@@ -1,0 +1,35 @@
+{
+  "name": "response-patch",
+  "version": "0.0.1",
+  "description": "monkey patch for `http.ServerResponse`.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fengmk2/response-patch.git"
+  },
+  "keywords": [
+    "res",
+    "send",
+    "redirect",
+    "cookie",
+    "response",
+    "http"
+  ],
+  "dependencies": {
+    "response-send": ">=0.0.1"
+  },
+  "devDependencies": {
+    "should": "*",
+    "mocha": "*",
+    "supertest": "*",
+    "pedding": "*"
+  },
+  "author": "fengmk2 <fengmk2@gmail.com>",
+  "license": "MIT"
+}
