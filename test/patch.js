@@ -41,6 +41,12 @@ describe('patch.js', function () {
     if (req.url === '/redirect/302') {
       return res.redirect('/302', '302');
     }
+    if (req.url === '/jsonp') {
+      return res.jsonp('callback', {key1: 'value1'});
+    }
+    if (req.url === '/jsonp/cb') {
+      return res.jsonp('cb', {key2: 'value2'});
+    }
   });
 
   it('should send(str)', function (done) {
@@ -90,6 +96,22 @@ describe('patch.js', function () {
     .get('/redirect/302')
     .expect(302)
     .expect('Location', '/302', done);
+  });
+
+    it('should jsonp {"key1": "value1"}', function (done) {
+    request(app)
+    .get('/jsonp')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect(/{"key1":"value1"}/, done)
+  });
+
+  it('should jsonp {"key2": "value2"}', function (done) {
+    request(app)
+    .get('/jsonp/cb')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect(/{"key2":"value2"}/, done)
   });
 
 });

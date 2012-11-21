@@ -28,7 +28,8 @@
     "should": "*",
     "mocha": "*",
     "supertest": "*",
-    "pedding": "*"
+    "pedding": "*",
+    "jscover": "*"
   },
   "author": "fengmk2 <fengmk2@gmail.com>",
   "license": "MIT"
