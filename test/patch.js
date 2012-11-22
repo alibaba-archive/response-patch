@@ -42,7 +42,7 @@ describe('patch.js', function () {
       return res.redirect('/302', '302');
     }
     if (req.url === '/jsonp') {
-      return res.jsonp('callback', {key1: 'value1'});
+      return res.jsonp({key1: 'value1'});
     }
     if (req.url === '/jsonp/cb') {
       return res.jsonp('cb', {key2: 'value2'});
@@ -98,7 +98,7 @@ describe('patch.js', function () {
     .expect('Location', '/302', done);
   });
 
-    it('should jsonp {"key1": "value1"}', function (done) {
+  it('should jsonp {"key1": "value1"}', function (done) {
     request(app)
     .get('/jsonp')
     .expect(200)
