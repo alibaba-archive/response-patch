@@ -45,7 +45,19 @@ describe('patch.js', function () {
       return res.jsonp({key1: 'value1'});
     }
     if (req.url === '/jsonp/cb') {
-      return res.jsonp('cb', {key2: 'value2'});
+      return res.jsonp({key2: 'value2'}, 'cb');
+    }
+    if (req.url === '/jsonp/buffer') {
+      return res.jsonp(new Buffer('mockbuffer'));
+    }
+    if (req.url === '/jsonp/undefined') {
+      return res.jsonp();
+    }
+    if (req.url === '/jsonp/string') {
+      return res.jsonp('str');
+    }
+    if (req.url === '/jsonp/number') {
+      return res.jsonp(1);
     }
   });
 
@@ -111,7 +123,39 @@ describe('patch.js', function () {
     .get('/jsonp/cb')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect(/{"key2":"value2"}/, done)
+    .expect(/{"key2":"value2"}/, done);
+  });
+
+  it('should error response data when data is buffer', function (done) {
+    request(app)
+    .get('/jsonp/buffer')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect(/"0":109,"1":111,"2":99,"3":107,"4":98,"5":117,"6":102,"7":102,"8":101,"9":114/, done);
+  });
+
+  it('should when data and callback both is undefined', function (done) {
+    request(app)
+    .get('/jsonp/undefined')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback(undefined)', done);
+  });
+
+  it('should error response data when data is string', function (done) {
+    request(app)
+    .get('/jsonp/string')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback("str")', done);
+  });
+
+  it('should error response data when data is number', function (done) {
+    request(app)
+    .get('/jsonp/number')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback(1)', done);
   });
 
 });
