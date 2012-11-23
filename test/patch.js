@@ -126,12 +126,22 @@ describe('patch.js', function () {
     .expect(/{"key2":"value2"}/, done);
   });
 
+  /**
+   * JSON.stringify(buffer) of node 9.0 version is different from that before
+   * for example 
+   * JSON.stringify(new Buffer('mockbuffer'))
+   *   9.0 version    : [109,111,99,107,98,117,102,102,101,114]
+   *   before version : {"0":109,"1":111,"2":99,"3":107,"4":98,"5":117,"6":102,"7":102,"8":101,"9":114,"length":10,....}
+   */
+ 
   it('should error response data when data is buffer', function (done) {
     request(app)
     .get('/jsonp/buffer')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect(/"0":109,"1":111,"2":99,"3":107,"4":98,"5":117,"6":102,"7":102,"8":101,"9":114/, done);
+    .expect(/109/)
+    .expect(/98/)
+    .expect(/101/, done);
   });
 
   it('should when data and callback both is undefined', function (done) {
