@@ -1,6 +1,6 @@
 {
   "name": "response-patch",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "monkey patch for `http.ServerResponse`.",
   "main": "index.js",
   "directories": {
@@ -28,7 +28,8 @@
     "should": "*",
     "mocha": "*",
     "supertest": "*",
-    "pedding": "*"
+    "pedding": "*",
+    "jscover": "*"
   },
   "author": "fengmk2 <fengmk2@gmail.com>",
   "license": "MIT"
