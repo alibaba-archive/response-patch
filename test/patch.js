@@ -59,6 +59,12 @@ describe('patch.js', function () {
     if (req.url === '/jsonp/number') {
       return res.jsonp(1);
     }
+    if (req.url === '/jsonp/array') {
+      return res.jsonp([1, 2, 3]);
+    }
+    if (req.url === '/jsonp/null') {
+      return res.jsonp(null);
+    }
   });
 
   it('should send(str)', function (done) {
@@ -126,6 +132,13 @@ describe('patch.js', function () {
     .expect(/{"key2":"value2"}/, done);
   });
 
+  it('should jsonp [1 ,2, 3]', function (done) {
+    request(app)
+    .get('/jsonp/array')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback([1,2,3])', done);
+  });
   /**
    * JSON.stringify(buffer) of node 9.0 version is different from that before
    * for example 
@@ -160,12 +173,11 @@ describe('patch.js', function () {
     .expect('callback("str")', done);
   });
 
-  it('should error response data when data is number', function (done) {
+  it('should error response data when data is null', function (done) {
     request(app)
-    .get('/jsonp/number')
+    .get('/jsonp/null')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('callback(1)', done);
+    .expect('callback(null)', done);
   });
-
 });
