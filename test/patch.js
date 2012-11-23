@@ -164,6 +164,14 @@ describe('patch.js', function () {
     .expect('callback("str")', done);
   });
 
+  it('should error response data when data is number', function (done) {
+    request(app)
+    .get('/jsonp/number')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback(1)', done);
+  });
+  
   it('should error response data when data is null', function (done) {
     request(app)
     .get('/jsonp/null')
