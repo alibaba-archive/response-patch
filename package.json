@@ -1,6 +1,6 @@
 {
   "name": "response-patch",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "monkey patch for `http.ServerResponse`.",
   "main": "index.js",
   "directories": {
