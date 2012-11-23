@@ -41,6 +41,30 @@ describe('patch.js', function () {
     if (req.url === '/redirect/302') {
       return res.redirect('/302', '302');
     }
+    if (req.url === '/jsonp') {
+      return res.jsonp({key1: 'value1'});
+    }
+    if (req.url === '/jsonp/cb') {
+      return res.jsonp({key2: 'value2'}, 'cb');
+    }
+    if (req.url === '/jsonp/buffer') {
+      return res.jsonp(new Buffer('mockbuffer'));
+    }
+    if (req.url === '/jsonp/undefined') {
+      return res.jsonp();
+    }
+    if (req.url === '/jsonp/string') {
+      return res.jsonp('str');
+    }
+    if (req.url === '/jsonp/number') {
+      return res.jsonp(1);
+    }
+    if (req.url === '/jsonp/array') {
+      return res.jsonp([1, 2, 3]);
+    }
+    if (req.url === '/jsonp/null') {
+      return res.jsonp(null);
+    }
   });
 
   it('should send(str)', function (done) {
@@ -92,4 +116,67 @@ describe('patch.js', function () {
     .expect('Location', '/302', done);
   });
 
+  it('should jsonp {"key1": "value1"}', function (done) {
+    request(app)
+    .get('/jsonp')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect(/{"key1":"value1"}/, done)
+  });
+
+  it('should jsonp {"key2": "value2"}', function (done) {
+    request(app)
+    .get('/jsonp/cb')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect(/{"key2":"value2"}/, done);
+  });
+
+  it('should jsonp [1 ,2, 3]', function (done) {
+    request(app)
+    .get('/jsonp/array')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback([1,2,3])', done);
+  });
+ 
+  it('should error response data when data is buffer', function (done) {
+    request(app)
+    .get('/jsonp/buffer')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback("mockbuffer")', done);
+  });
+
+  it('should when data and callback both is undefined', function (done) {
+    request(app)
+    .get('/jsonp/undefined')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback(undefined)', done);
+  });
+
+  it('should error response data when data is string', function (done) {
+    request(app)
+    .get('/jsonp/string')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback("str")', done);
+  });
+
+  it('should error response data when data is number', function (done) {
+    request(app)
+    .get('/jsonp/number')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback(1)', done);
+  });
+  
+  it('should error response data when data is null', function (done) {
+    request(app)
+    .get('/jsonp/null')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback(null)', done);
+  });
 });

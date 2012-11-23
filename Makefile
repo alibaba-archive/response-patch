@@ -2,6 +2,7 @@ TESTS = $(shell ls -S `find test -type f -name "*.js" -print`)
 TIMEOUT = 1000
 MOCHA_OPTS =
 REPORTER = tap
+JSCOVERAGE = ./node_modules/jscover/bin/jscover
 
 test:
 	@NODE_ENV=test node_modules/mocha/bin/mocha \
@@ -13,7 +14,7 @@ test-cov: lib-cov
 
 lib-cov:
 	@rm -rf lib-cov
-	@jscoverage lib lib-cov
+	@$(JSCOVERAGE) lib lib-cov
 
 clean:
 	@rm -rf lib-cov
