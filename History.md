@@ -1,4 +1,9 @@
 
+0.0.3 / 2013-01-08 
+==================
+
+  * fixed charset and not change statusCode by jsonp
+
 0.0.2 / 2012-11-23 
 ==================
 
