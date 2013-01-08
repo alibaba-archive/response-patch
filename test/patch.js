@@ -56,6 +56,10 @@ describe('patch.js', function () {
     if (req.url === '/jsonp/string') {
       return res.jsonp('str');
     }
+    if (req.url === '/jsonp/string500') {
+      res.statusCode = 500;
+      return res.jsonp('str500');
+    }
     if (req.url === '/jsonp/number') {
       return res.jsonp(1);
     }
@@ -121,7 +125,7 @@ describe('patch.js', function () {
     .get('/jsonp')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect(/{"key1":"value1"}/, done)
+    .expect('callback({"key1":"value1"})', done);
   });
 
   it('should jsonp {"key2": "value2"}', function (done) {
@@ -129,7 +133,7 @@ describe('patch.js', function () {
     .get('/jsonp/cb')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect(/{"key2":"value2"}/, done);
+    .expect('cb({"key2":"value2"})', done);
   });
 
   it('should jsonp [1 ,2, 3]', function (done) {
@@ -156,7 +160,7 @@ describe('patch.js', function () {
     .expect('callback(undefined)', done);
   });
 
-  it('should error response data when data is string', function (done) {
+  it('should jsonp response data when data is string', function (done) {
     request(app)
     .get('/jsonp/string')
     .expect(200)
@@ -164,7 +168,15 @@ describe('patch.js', function () {
     .expect('callback("str")', done);
   });
 
-  it('should error response data when data is number', function (done) {
+  it('should jsonp response data type is string and status 500', function (done) {
+    request(app)
+    .get('/jsonp/string500')
+    .expect(500)
+    .expect('Content-Type', 'application/javascript')
+    .expect('callback("str500")', done);
+  });
+
+  it('should jsonp response data when data is number', function (done) {
     request(app)
     .get('/jsonp/number')
     .expect(200)
@@ -172,7 +184,7 @@ describe('patch.js', function () {
     .expect('callback(1)', done);
   });
   
-  it('should error response data when data is null', function (done) {
+  it('should jsonp response data when data is null', function (done) {
     request(app)
     .get('/jsonp/null')
     .expect(200)
