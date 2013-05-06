@@ -1,4 +1,10 @@
 
+0.1.0 / 2013-05-06 
+==================
+
+  * hotfix for XSS in jsonp callback
+  * update readme
+
 0.0.3 / 2013-01-08 
 ==================
 
