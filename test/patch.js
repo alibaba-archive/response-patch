@@ -44,6 +44,12 @@ describe('patch.js', function () {
     if (req.url === '/jsonp') {
       return res.jsonp({key1: 'value1'});
     }
+    if (req.url === '/jsonp/xss1') {
+      return res.jsonp({key1: 'value1'}, '</script><script>alert(399220605)</script>');
+    }
+    if (req.url === '/jsonp/xss2') {
+      return res.jsonp({key1: 'value1'}, decodeURIComponent('%3C/script%3E%3Cscript%3Ealert(469517365)%3C/script%3E'));
+    }
     if (req.url === '/jsonp/cb') {
       return res.jsonp({key2: 'value2'}, 'cb');
     }
@@ -190,5 +196,21 @@ describe('patch.js', function () {
     .expect(200)
     .expect('Content-Type', 'application/javascript')
     .expect('callback(null)', done);
+  });
+
+  it('should jsonp callback protect XSS1', function (done) {
+    request(app)
+    .get('/jsonp/xss1')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('&lt;/script&gt;&lt;script&gt;alert(399220605)&lt;/script&gt;({"key1":"value1"})', done);
+  });
+
+  it('should jsonp callback protect XSS2', function (done) {
+    request(app)
+    .get('/jsonp/xss2')
+    .expect(200)
+    .expect('Content-Type', 'application/javascript')
+    .expect('&lt;/script&gt;&lt;script&gt;alert(469517365)&lt;/script&gt;({"key1":"value1"})', done);
   });
 });

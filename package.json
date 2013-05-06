@@ -22,6 +22,7 @@
     "http"
   ],
   "dependencies": {
+    "utility": ">=0.0.7",
     "response-send": ">=0.0.1"
   },
   "devDependencies": {
