@@ -131,7 +131,7 @@ describe('patch.js', function () {
     .get('/jsonp')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('callback({"key1":"value1"})', done);
+    .expect('\r\ncallback({"key1":"value1"})', done);
   });
 
   it('should jsonp {"key2": "value2"}', function (done) {
@@ -139,7 +139,7 @@ describe('patch.js', function () {
     .get('/jsonp/cb')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('cb({"key2":"value2"})', done);
+    .expect('\r\ncb({"key2":"value2"})', done);
   });
 
   it('should jsonp [1 ,2, 3]', function (done) {
@@ -147,7 +147,7 @@ describe('patch.js', function () {
     .get('/jsonp/array')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('callback([1,2,3])', done);
+    .expect('\r\ncallback([1,2,3])', done);
   });
  
   it('should error response data when data is buffer', function (done) {
@@ -155,7 +155,7 @@ describe('patch.js', function () {
     .get('/jsonp/buffer')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('callback("mockbuffer")', done);
+    .expect('\r\ncallback("mockbuffer")', done);
   });
 
   it('should when data and callback both is undefined', function (done) {
@@ -163,7 +163,7 @@ describe('patch.js', function () {
     .get('/jsonp/undefined')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('callback(undefined)', done);
+    .expect('\r\ncallback(undefined)', done);
   });
 
   it('should jsonp response data when data is string', function (done) {
@@ -171,7 +171,7 @@ describe('patch.js', function () {
     .get('/jsonp/string')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('callback("str")', done);
+    .expect('\r\ncallback("str")', done);
   });
 
   it('should jsonp response data type is string and status 500', function (done) {
@@ -179,7 +179,7 @@ describe('patch.js', function () {
     .get('/jsonp/string500')
     .expect(500)
     .expect('Content-Type', 'application/javascript')
-    .expect('callback("str500")', done);
+    .expect('\r\ncallback("str500")', done);
   });
 
   it('should jsonp response data when data is number', function (done) {
@@ -187,7 +187,7 @@ describe('patch.js', function () {
     .get('/jsonp/number')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('callback(1)', done);
+    .expect('\r\ncallback(1)', done);
   });
   
   it('should jsonp response data when data is null', function (done) {
@@ -195,7 +195,7 @@ describe('patch.js', function () {
     .get('/jsonp/null')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('callback(null)', done);
+    .expect('\r\ncallback(null)', done);
   });
 
   it('should jsonp callback protect XSS1', function (done) {
@@ -203,7 +203,7 @@ describe('patch.js', function () {
     .get('/jsonp/xss1')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('&lt;/script&gt;&lt;script&gt;alert(399220605)&lt;/script&gt;({"key1":"value1"})', done);
+    .expect('\r\n&lt;/script&gt;&lt;script&gt;alert(399220605)&lt;/script&gt;({"key1":"value1"})', done);
   });
 
   it('should jsonp callback protect XSS2', function (done) {
@@ -211,6 +211,6 @@ describe('patch.js', function () {
     .get('/jsonp/xss2')
     .expect(200)
     .expect('Content-Type', 'application/javascript')
-    .expect('&lt;/script&gt;&lt;script&gt;alert(469517365)&lt;/script&gt;({"key1":"value1"})', done);
+    .expect('\r\n&lt;/script&gt;&lt;script&gt;alert(469517365)&lt;/script&gt;({"key1":"value1"})', done);
   });
 });
