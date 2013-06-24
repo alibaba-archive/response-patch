@@ -1,4 +1,4 @@
-response-patch [![Build Status](https://secure.travis-ci.org/fengmk2/response-patch.png)](http://travis-ci.org/fengmk2/response-patch) [![Dependencies](http://david-dm.org/fengmk2/response-patch.png)](http://david-dm.org/fengmk2/response-patch)
+response-patch [![Build Status](https://secure.travis-ci.org/fengmk2/response-patch.png)](http://travis-ci.org/fengmk2/response-patch) [![Coverage Status](https://coveralls.io/repos/fengmk2/response-patch/badge.png)](https://coveralls.io/r/fengmk2/response-patch)
 ==============
 
 Monkey patch for `http.ServerResponse`.

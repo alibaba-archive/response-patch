@@ -1,23 +1,29 @@
-TESTS = $(shell ls -S `find test -type f -name "*.js" -print`)
+TESTS = test/*.js
+REPORTER = spec
 TIMEOUT = 1000
 MOCHA_OPTS =
-REPORTER = spec
-JSCOVERAGE = ./node_modules/jscover/bin/jscover
 
 install:
 	@npm install
 
 test: install
-	@NODE_ENV=test node_modules/mocha/bin/mocha \
-		--reporter $(REPORTER) --timeout $(TIMEOUT) $(MOCHA_OPTS) $(TESTS)
+	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
+		--reporter $(REPORTER) \
+		--timeout $(TIMEOUT) \
+		$(MOCHA_OPTS) \
+		$(TESTS)
 
-test-cov: lib-cov
-	@RESPONSE_PATCH_COV=1 $(MAKE) test REPORTER=dot
-	@RESPONSE_PATCH_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
+test-cov:
+	@rm -f coverage.html
+	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov > coverage.html
+	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=travis-cov
+	@ls -lh coverage.html
 
-lib-cov: install
-	@rm -rf $@
-	@$(JSCOVERAGE) lib $@
+test-coveralls:
+	@$(MAKE) test
+	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
+	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js
 
-.PHONY: lib-cov test test-cov
+test-all: test test-cov
 
+.PHONY: test test-cov test-all test-coveralls

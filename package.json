@@ -7,7 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test-all",
+    "blanket": { "pattern": "response-patch/lib" },
+    "travis-cov": { "threshold": 98 }
   },
   "repository": {
     "type": "git",
@@ -30,7 +32,10 @@
     "mocha": "*",
     "supertest": "*",
     "pedding": "*",
-    "jscover": "*"
+    "blanket": "*",
+    "travis-cov": "*",
+    "coveralls": "*",
+    "mocha-lcov-reporter": "*"
   },
   "author": "fengmk2 <fengmk2@gmail.com>",
   "license": "MIT"
